@@ -7,6 +7,9 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
     res.send(JSON.stringify({ msg }));
   };
 
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   const slug = req?.query?.slug;
 
   if (!slug || typeof slug !== "string") {
@@ -16,6 +19,7 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await client.shortLink.findFirst({
     where: { slug: { equals: slug } },
   });
+  res.setHeader("Cache-Control", "s-maxage=100000, stale-while-revalidate");
 
   if (!data) {
     return notFound("slug not found");
