@@ -16,13 +16,9 @@ model ShortLink {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  url  String @db.VarChar(1000)
-  User User[]
-}
+  url String @db.VarChar(1000)
 
-model User {
-  id Int @id @default(autoincrement())
+  slug String @unique
 
-  shortLink   ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
-  shortLinkId Int
+  @@index([slug])
 }
