@@ -19,6 +19,7 @@ const getUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await client.shortLink.findFirst({
     where: { slug: { equals: slug } },
   });
+
   res.setHeader("Cache-Control", "s-maxage=100000, stale-while-revalidate");
 
   if (!data) {
